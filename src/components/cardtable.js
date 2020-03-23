@@ -23,31 +23,34 @@ const CardTable = () => {
   const apiConnect = useCallback( async() => {
     try {
       const response = await api.get('tarot.json');
-      const cards = response.data.cards.map(
+      const arrCards = response.data.cards.map(
         (item, index) => ({...item, id: index})
       );
-      setCards( cards );      
+      setCards( arrCards );      
       setPathCards({ url: response.data.imagesUrl, cardsBack: response.data.imageBackCard })
-    
+
     } catch (err) {
       console.log("error", err);
     }
 
-  }, 
-  [cards, pathCards]) 
+  }, [cards, pathCards])
 
   const renderItem = ({item, index}) => (
     <View key={index} style={styles.item}>
       <Image 
-        style={styles.cardsImage} 
+        style={styles.cardsImage}
         source={{uri: pathCards.url + item.image}}
       />
     </View>
   ) 
 
   const startGame = () => {
-    setCards(suffle(cards)); 
-    console.warn(cards);
+    setCards([]); 
+    setTimeout(() => {
+      setCards(suffle(cards)); 
+    }, 5);   
+    
+    
   }
 
   return (
@@ -65,8 +68,7 @@ const CardTable = () => {
         data={cards} 
         keyExtractor={item => item.id}
         numColumns={2} 
-        renderItem={renderItem}    
-        extraData={cards}
+        renderItem={renderItem}  
       />  
     </SafeAreaView>
   )

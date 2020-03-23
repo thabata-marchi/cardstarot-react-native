@@ -6,8 +6,11 @@ import {
   FlatList, 
   View, 
   Image,
-  Text
+  Text,
+  TouchableOpacity
 } from 'react-native';
+
+import suffle from 'shuffle-array';
 
 const CardTable = () => {
   const [ cards, setCards ] = useState([]);
@@ -25,37 +28,48 @@ const CardTable = () => {
       );
       setCards( cards );      
       setPathCards({ url: response.data.imagesUrl, cardsBack: response.data.imageBackCard })
-
+    
     } catch (err) {
       console.log("error", err);
     }
 
-  }, [cards, pathCards])
-
+  }, 
+  [cards, pathCards]) 
 
   const renderItem = ({item, index}) => (
     <View key={index} style={styles.item}>
       <Image 
-        style={styles.cardsImage}
+        style={styles.cardsImage} 
         source={{uri: pathCards.url + item.image}}
       />
     </View>
   ) 
 
+  const startGame = () => {
+    setCards(suffle(cards)); 
+    console.warn(cards);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.h1}>
-        Jogo de tarot
+        Jogo de tarot     
       </Text>
+
+      <TouchableOpacity 
+        style={styles.buttonStartGame}
+        onPress={startGame}
+      />
+      
       <FlatList 
         data={cards} 
         keyExtractor={item => item.id}
         numColumns={2} 
         renderItem={renderItem}    
+        extraData={cards}
       />  
     </SafeAreaView>
   )
-
 }
 
 const styles = StyleSheet.create({
@@ -63,6 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
     backgroundColor: '#fff',
+    alignItems: "center",
   },
   item: {
     alignItems: "center",
@@ -79,6 +94,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
     marginBottom: 10,
+  },
+  buttonStartGame: {
+    backgroundColor: '#C00',
+    borderRadius: 50,
+    width:50,
+    height:50,
+    marginBottom: 10
   }
 })
 

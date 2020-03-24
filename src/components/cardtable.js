@@ -53,13 +53,27 @@ const CardTable = () => {
   }
 
   const renderItem = ({item, index}) => (
+    
     <View key={index} style={styles.item}>
       {  
         !toogleRender || cardTurn && item === cardSelected ? 
-          <Image 
-            style={styles.cardsImage} 
-            source={{uri: pathCards.url + item.image}} 
-          />
+          <>
+            <Image 
+              style={styles.cardsImage} 
+              source={{uri: pathCards.url + item.image}} 
+            />
+            
+          { 
+            cardTurn && item === cardSelected ?           
+            <Text style={styles.textCard}>
+              Some quick example text to build on the card title and make up the bulk of the card's content.
+            </Text>
+
+            :
+            null 
+
+          }
+          </>
         :        
         <TouchableOpacity onPress={() => selectCards(item)}>
           <Image 
@@ -103,8 +117,10 @@ const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     flexGrow: 1,
-    margin: 4,
-    padding: 10
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 10,
+    width: 120,
   },
   cardsImage: {
     width: 120,
@@ -126,6 +142,10 @@ const styles = StyleSheet.create({
     width:50,
     height:50,
     marginBottom: 10,  
+  },
+  textCard: {
+    textAlign: "center",
+    marginTop: 10,
   }
 })
 

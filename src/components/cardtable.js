@@ -7,15 +7,21 @@ import {
   View, 
   Image,
   Text,
+  TouchableHighlight,
   TouchableOpacity
 } from 'react-native';
 
 import suffle from 'shuffle-array';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CardTable = () => {
   const [ cards, setCards ] = useState([]);
-  const [ pathCards, setPathCards ] = useState([]);
- 
+  const [ pathCards, setPathCards ] = useState([]); 
+  const [ toogleRender, setToogleRender ] = useState(false);
+
+  const [ cardTurn, setCardTurn ] = useState(false);
+  const [cardSelected, setCardSelected] = useState("");
+
   useEffect(() => {
     apiConnect();
   }, []);
@@ -33,25 +39,41 @@ const CardTable = () => {
       console.log("error", err);
     }
 
-  }, [cards, pathCards])
+  }, [cards, pathCards]) 
+
+  const selectCards = item => { 
+    setCardSelected(item);
+
+    item ?
+    setCardTurn(!cardTurn) :
+    console.warn("=( , item:", item)
+
+  }
+
+  const startGame = () => {
+    setToogleRender(!toogleRender);
+    setCards(suffle(cards));
+    setCardSelected("");
+  }
 
   const renderItem = ({item, index}) => (
     <View key={index} style={styles.item}>
-      <Image 
-        style={styles.cardsImage}
-        source={{uri: pathCards.url + item.image}}
-      />
+      {  
+        !toogleRender || cardTurn && item === cardSelected ? 
+          <Image 
+            style={styles.cardsImage} 
+            source={{uri: pathCards.url + item.image}} 
+          />
+        :        
+        <TouchableOpacity onPress={() => selectCards(item)}>
+          <Image 
+            style={styles.cardsImage} 
+            source={{uri: pathCards.cardsBack}} 
+          />
+        </TouchableOpacity>   
+      }
     </View>
   ) 
-
-  const startGame = () => {
-    setCards([]); 
-    setTimeout(() => {
-      setCards(suffle(cards)); 
-    }, 5);   
-    
-    
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,10 +81,11 @@ const CardTable = () => {
         Jogo de tarot     
       </Text>
 
-      <TouchableOpacity 
-        style={styles.buttonStartGame}
+      <TouchableHighlight 
         onPress={startGame}
-      />
+      >
+        <Icon name="play" style={styles.play} />
+      </TouchableHighlight>
       
       <FlatList 
         data={cards} 
@@ -97,12 +120,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  buttonStartGame: {
+  play: {
+    color: '#fff',
+    paddingLeft: 18,
+    paddingTop: 15,
+    fontSize: 20,
     backgroundColor: '#C00',
     borderRadius: 50,
     width:50,
     height:50,
-    marginBottom: 10
+    marginBottom: 10,  
   }
 })
 

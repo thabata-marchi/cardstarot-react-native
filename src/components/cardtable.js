@@ -43,11 +43,7 @@ const CardTable = () => {
 
   const selectCards = item => { 
     setCardSelected(item);
-
-    item ?
-    setCardTurn(!cardTurn) :
-    console.warn("=( , item:", item)
-
+    if(item) return setCardTurn(!cardTurn)
   }
 
   const startGame = () => {

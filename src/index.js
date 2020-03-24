@@ -1,5 +1,5 @@
 import React from 'react';
-import CardTable from './components/cardtable';
+import { CardTable } from './components/CardTable/'
 
 const App = () => <CardTable />
 

@@ -1,12 +1,12 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import api from '../../services/api';
+import api from '../services/api';
 import { SafeAreaView, Text } from 'react-native';
 
 import styles from './styles';
-import { StartGame } from '../StartGameButton';
-import ListCards from '../ListCards/listcards';
+import { StartGame } from '../components/StartGameButton';
+import { ListCards } from '../components/ListCards';
 
-const CardTable = () => {
+const Main = () => {
   const [ cards, setCards ] = useState([]);
   const [ pathCards, setPathCards ] = useState([]); 
   const [ toogleRender, setToogleRender ] = useState(false);
@@ -33,14 +33,14 @@ const CardTable = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.h1}> Jogo de tarot </Text>
+      <Text style={styles.h1}>Jogo de tarot</Text>
       <StartGame 
         toogleRender={toogleRender}
         setToogleRender={setToogleRender}
         cards={cards}
         setCards={setCards}
         setCardSelected={setCardSelected}
-      />
+      /> 
       <ListCards 
         setCardSelected={setCardSelected}
         cardSelected={cardSelected}
@@ -54,4 +54,4 @@ const CardTable = () => {
   )
 }
 
-export default CardTable;
+export default Main;

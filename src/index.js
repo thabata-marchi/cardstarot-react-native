@@ -1,6 +1,7 @@
 import React from 'react';
-import { CardTable } from './components/CardTable/'
+import Main from './views/main';
+import './config/StatusBarConfig';
 
-const App = () => <CardTable />
+const App = () => <Main />
 
 export default App;

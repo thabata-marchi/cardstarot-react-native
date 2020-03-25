@@ -12,7 +12,11 @@ const styles = StyleSheet.create({
   cardsImage: {
     width: 120,
     height: 252,       
-  }
+  },
+  textCard: {
+    textAlign: "center",
+    marginTop: 10,
+  }  
 })
 
 export default styles;

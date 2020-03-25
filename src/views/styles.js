@@ -12,10 +12,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
     marginBottom: 10,
-  },
-  textCard: {
-    textAlign: "center",
-    marginTop: 10,
   }
 })
 

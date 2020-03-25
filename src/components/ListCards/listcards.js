@@ -14,7 +14,7 @@ const ListCards = ({setCardSelected, cardSelected, setCardTurn, cardTurn, toogle
     setCardSelected(item);
     if(item) return setCardTurn(!cardTurn)
   }
-
+  
   const renderItem = ({item, index}) => (    
     <View key={index} style={styles.item}>
       {!toogleRender || cardTurn && item === cardSelected ? 

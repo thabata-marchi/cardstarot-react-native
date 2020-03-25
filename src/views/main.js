@@ -1,5 +1,6 @@
-import React, { useEffect, useCallback, useState } from 'react';
-import api from '../services/api';
+import React, { useState } from 'react';
+import useDataApi from '../services/useDataApi';
+
 import { SafeAreaView, Text } from 'react-native';
 
 import styles from './styles';
@@ -7,29 +8,11 @@ import { StartGame } from '../components/StartGameButton';
 import { ListCards } from '../components/ListCards';
 
 const Main = () => {
-  const [ cards, setCards ] = useState([]);
-  const [ pathCards, setPathCards ] = useState([]); 
+  const data = useDataApi(); 
+
   const [ toogleRender, setToogleRender ] = useState(false);
   const [ cardTurn, setCardTurn ] = useState(false);
-  const [cardSelected, setCardSelected] = useState("");
-
-  useEffect(() => {
-    apiConnect();
-  }, []);
-
-  const apiConnect = useCallback( async() => {
-    try {
-      const response = await api.get('tarot.json');
-      const arrCards = response.data.cards.map(
-        (item, index) => ({...item, id: index})
-      );
-      setCards( arrCards );      
-      setPathCards({ url: response.data.imagesUrl, cardsBack: response.data.imageBackCard })
-
-    } catch (err) {
-      console.log("error", err);
-    }
-  }, [cards, pathCards]) 
+  const [ cardSelected, setCardSelected ] = useState("");
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,8 +20,7 @@ const Main = () => {
       <StartGame 
         toogleRender={toogleRender}
         setToogleRender={setToogleRender}
-        cards={cards}
-        setCards={setCards}
+        cards={data.cardsRes}
         setCardSelected={setCardSelected}
       /> 
       <ListCards 
@@ -47,8 +29,8 @@ const Main = () => {
         setCardTurn={setCardTurn}
         cardTurn={cardTurn}
         toogleRender={toogleRender}
-        cards={cards}
-        pathCards={pathCards}
+        cards={data.cardsRes}
+        pathCards={data.pathCardsRes}
       />
     </SafeAreaView>
   )

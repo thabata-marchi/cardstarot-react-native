@@ -4,11 +4,11 @@ import styles from './styles.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import suffle from 'shuffle-array';
 
-const StartGame = ({toogleRender, setToogleRender, cards, setCards, setCardSelected}) => {
-
+const StartGame = ({toogleRender, setToogleRender, cards, setCardSelected}) => {
+  
   const initGame = () => {
     setToogleRender(!toogleRender);
-    setCards(suffle(cards));
+    suffle(cards);
     setCardSelected("");
   }  
 
